@@ -1,10 +1,17 @@
+"use client";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClock, faHistory } from "@fortawesome/free-solid-svg-icons";
+import { useSectionHighlight } from "@/hooks/useSectionHighlight";
 
 export const HistorySection = () => {
+  const isHighlighted = useSectionHighlight("history-section");
+
   return (
     <section id="history-section" className="scroll-mt-[84px]">
-      <div className="bg-card rounded-2xl p-6 shadow-xl">
+      <div
+        className={`bg-card rounded-2xl p-6 shadow-xl transition-all duration-500 ${isHighlighted ? "border-primary-foreground ring-primary-foreground/80 ring-4" : ""}`}
+      >
         <div className="mb-6 flex items-center">
           <div className="bg-primary/20 mr-4 flex h-12 w-12 items-center justify-center rounded-full">
             <FontAwesomeIcon

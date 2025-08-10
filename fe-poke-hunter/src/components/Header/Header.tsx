@@ -12,19 +12,14 @@ export const Header = () => {
 
   const handleNavClick = (e: React.MouseEvent, id: string) => {
     e.preventDefault();
-    smoothScrollTo(id);
-
     if (id === "search-section") {
-      setTimeout(() => {
-        const input = document.getElementById("city-search");
-        input?.focus();
-      }, 100);
+      smoothScrollTo(id, "city-search");
+    } else {
+      smoothScrollTo(id);
     }
   };
 
-  // Efeito para aplicar/remover a classe dark no html
   useEffect(() => {
-    // Verificar preferência salva ou do sistema
     const savedMode = localStorage.getItem("darkMode");
     const systemPrefersDark = window.matchMedia(
       "(prefers-color-scheme: dark)",
@@ -35,7 +30,6 @@ export const Header = () => {
   }, []);
 
   useEffect(() => {
-    // Aplicar/remover classe e salvar preferência
     if (darkMode) {
       document.documentElement.classList.add("dark");
     } else {
@@ -45,7 +39,10 @@ export const Header = () => {
   }, [darkMode]);
 
   return (
-    <header id="header" className="bg-card border-primary border-b-4 shadow-lg sticky top-0 z-50">
+    <header
+      id="header"
+      className="bg-card border-primary sticky top-0 z-50 border-b-4 shadow-lg"
+    >
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
@@ -77,18 +74,18 @@ export const Header = () => {
                 Search
               </Link>
               <Link
-                href="#history-section"
-                className="text-muted-foreground hover:text-primary cursor-pointer font-semibold transition-colors"
-                onClick={(e) => handleNavClick(e, "history-section")}
-              >
-                History
-              </Link>
-              <Link
                 href="#instructions-section"
                 className="text-muted-foreground hover:text-primary cursor-pointer font-semibold transition-colors"
                 onClick={(e) => handleNavClick(e, "instructions-section")}
               >
                 Help
+              </Link>
+              <Link
+                href="#history-section"
+                className="text-muted-foreground hover:text-primary cursor-pointer font-semibold transition-colors"
+                onClick={(e) => handleNavClick(e, "history-section")}
+              >
+                History
               </Link>
             </nav>
             <div className="flex items-center gap-2">

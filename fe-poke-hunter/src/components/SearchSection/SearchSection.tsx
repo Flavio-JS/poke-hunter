@@ -5,13 +5,17 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMapMarkerAlt, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
+import { useSectionHighlight } from "@/hooks/useSectionHighlight";
 
 export const SearchSection = () => {
   const inputRef = useRef<HTMLInputElement>(null);
+  const isHighlighted = useSectionHighlight("search-section");
 
   return (
     <section id="search-section" className="-mt-16 mb-8 scroll-mt-[84px] pt-16">
-      <div className="bg-card border-primary rounded-2xl border-2 p-8 shadow-xl">
+      <div
+        className={`bg-card border-primary rounded-2xl border-2 p-8 shadow-xl transition-all duration-500 ${isHighlighted ? "border-primary-foreground ring-primary-foreground/80 ring-4" : ""}`}
+      >
         <div className="mb-6 text-center">
           <h2 className="text-foreground mb-2 text-2xl font-bold">
             Encontre seu Pokémon!
