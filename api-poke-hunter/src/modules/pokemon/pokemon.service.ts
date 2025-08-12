@@ -7,6 +7,7 @@ import { HttpService } from '@nestjs/axios';
 import { firstValueFrom } from 'rxjs';
 import { AxiosError } from 'axios';
 import {
+  PokeApiPokemonResponse,
   PokeApiTypeResponse,
 } from '../../common/interfaces/poke-api.interface';
 import { PokemonResponseDto } from './dto/pokemon-response.dto';
@@ -48,6 +49,50 @@ export class PokemonService {
           throw new BadRequestException('Invalid Pokémon type');
         }
         throw new Error('Failed to fetch Pokémon data from external API');
+      }
+      throw error;
+    }
+  }
+
+  async getRandomPokemonByType(type: string): Promise<{
+    name: string;
+    image: string;
+  }> {
+    if (!type) {
+      throw new NotFoundException('Type is required');
+    }
+
+    const baseUrl = process.env.POKE_API_BASE_URL;
+
+    try {
+      const typeUrl = `${baseUrl}/type/${type.toLowerCase()}`;
+      const typeResponse = await firstValueFrom(
+        this.httpService.get<PokeApiTypeResponse>(typeUrl),
+      );
+
+      if (!typeResponse.data?.pokemon?.length) {
+        throw new NotFoundException(`No pokémons found for type ${type}`);
+      }
+
+      const randomIndex = Math.floor(
+        Math.random() * typeResponse.data.pokemon.length,
+      );
+      const pokemonUrl = typeResponse.data.pokemon[randomIndex].pokemon.url;
+
+      const pokemonResponse = await firstValueFrom(
+        this.httpService.get<PokeApiPokemonResponse>(pokemonUrl),
+      );
+
+      return {
+        name: pokemonResponse.data.name,
+        image: pokemonResponse.data.sprites.front_default,
+      };
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        if (error.response?.status === 404) {
+          throw new NotFoundException(`Pokémon type '${type}' not found`);
+        }
+        throw new Error('Failed to fetch Pokémon data');
       }
       throw error;
     }
