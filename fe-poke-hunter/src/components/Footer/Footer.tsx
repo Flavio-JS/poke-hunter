@@ -14,10 +14,6 @@ export const Footer = () => {
               PokeHunter © {new Date().getFullYear()}
             </span>
           </div>
-          <button className="bg-primary text-primary-foreground hover:bg-primary/90 flex items-center space-x-2 rounded-lg px-6 py-2 transition-colors">
-            <FontAwesomeIcon icon={faQuestionCircle} className="text-base" />
-            <span>Ajuda</span>
-          </button>
         </div>
       </div>
     </footer>

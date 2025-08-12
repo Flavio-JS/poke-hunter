@@ -18,21 +18,12 @@ Ele é responsável por permitir que o usuário informe uma cidade, consultar a 
 
 ---
 
-## 📋 Funcionalidades
-
-- Formulário para buscar cidade
-- Exibição da temperatura, clima e Pokémon sugerido
-- Renderização da imagem do Pokémon (extra)
-- Tratamento de erros e mensagens amigáveis
-
----
-
 ## ⚙️ Configuração do Projeto
 
 ### 1️⃣ Clonar o repositório
 ```bash
-git clone https://github.com/seu-usuario/pokehunter-frontend.git
-cd pokehunter-frontend
+git clone https://github.com/Flavio-JS/poke-hunter.git
+cd fe-poke-hunter/
 ```
 
 ### 2️⃣ Instalar dependências
@@ -43,32 +34,17 @@ yarn install
 ```
 
 ### 3️⃣ Configurar variáveis de ambiente
-Crie um arquivo `.env.local` na raiz do projeto com:
+Crie um arquivo `.env.local` na raiz do projeto `fe-poke-hunter` com:
 ```env
 NEXT_PUBLIC_BACKEND_URL=http://localhost:3000
 ```
 
 ### 4️⃣ Rodar o servidor de desenvolvimento
+No arquivo `package.json` está configurado para o o projeto rodar na porta `3001`, altere caso necessário e lembre-se de ajustar a url do front em `api-poke-hunter`
+
 ```bash
 npm run dev
 # ou
 yarn dev
 ```
 
----
-
-## 🐳 Executando com Docker (opcional)
-```bash
-docker build -t pokehunter-frontend .
-docker run -p 3001:3000 pokehunter-frontend
-```
-
----
-
-## 📷 Exemplo de Tela
-![Tela do PokeHunter](docs/screenshot.png)
-
----
-
-## 📜 Licença
-Este projeto está sob a licença MIT.

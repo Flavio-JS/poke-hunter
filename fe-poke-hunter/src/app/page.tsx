@@ -3,24 +3,27 @@ import { InstructionsSection } from "@/components/InstructionsSection/Instructio
 import { PokemonCard } from "@/components/PokemonCard/PokemonCard";
 import { SearchSection } from "@/components/SearchSection/SearchSection";
 import { WeatherCard } from "@/components/WeatherCard/WeatherCard";
+import { WeatherPokemonProvider } from "@/contexts/WeatherPokemonContext";
 
 export default function Home() {
   return (
-    <main
-      id="main-content"
-      className="container mx-auto scroll-mt-[84px] px-4 py-8"
-    >
-      <SearchSection />
+    <WeatherPokemonProvider>
+      <main
+        id="main-content"
+        className="container mx-auto scroll-mt-[84px] px-4 py-8"
+      >
+        <SearchSection />
 
-      <section id="results-section" className="mb-8">
-        <div className="grid gap-6 md:grid-cols-2">
-          <WeatherCard />
-          <PokemonCard />
-        </div>
-      </section>
+        <section id="results-section" className="mb-8">
+          <div className="grid gap-6 md:grid-cols-2">
+            <WeatherCard />
+            <PokemonCard />
+          </div>
+        </section>
 
-      <InstructionsSection />
-      <HistorySection />
-    </main>
+        <InstructionsSection />
+        <HistorySection />
+      </main>
+    </WeatherPokemonProvider>
   );
 }

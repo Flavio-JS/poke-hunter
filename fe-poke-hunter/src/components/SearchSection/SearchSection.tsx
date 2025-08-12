@@ -1,15 +1,46 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
+import { useWeatherPokemonMutation } from "@/api/hooks/useWeatherPokemon";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMapMarkerAlt, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { useSectionHighlight } from "@/hooks/useSectionHighlight";
+import { useWeatherPokemonContext } from "@/contexts/WeatherPokemonContext";
 
 export const SearchSection = () => {
+  const [city, setCity] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
   const isHighlighted = useSectionHighlight("search-section");
+  const { setWeatherData, setIsLoading, addToHistory, setError } =
+    useWeatherPokemonContext();
+
+  const { mutate, isPending, error } = useWeatherPokemonMutation();
+
+  const handleSearch = () => {
+    if (city.trim()) {
+      setIsLoading(true);
+      setError(null);
+      mutate(city.trim(), {
+        onSuccess: (data) => {
+          setWeatherData(data);
+          addToHistory(data);
+          setIsLoading(false);
+        },
+        onError: (error) => {
+          setError(error);
+          setIsLoading(false);
+        },
+      });
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter") {
+      handleSearch();
+    }
+  };
 
   return (
     <section id="search-section" className="-mt-16 mb-8 scroll-mt-[84px] pt-16">
@@ -33,6 +64,9 @@ export const SearchSection = () => {
               placeholder="Digite o nome da cidade"
               className="w-full rounded-xl px-6 py-4 text-lg shadow-inner"
               id="city-search"
+              value={city}
+              onChange={(e) => setCity(e.target.value)}
+              onKeyDown={handleKeyDown}
             />
             <FontAwesomeIcon
               icon={faMapMarkerAlt}
@@ -40,15 +74,29 @@ export const SearchSection = () => {
             />
           </div>
           <Button
-            className="bg-primary flex transform items-center justify-center space-x-2 px-8 py-4 text-lg font-bold shadow-lg transition-all duration-200 hover:scale-105 hover:cursor-pointer hover:shadow-xl"
+            className="bg-primary flex w-[200px] transform items-center justify-center space-x-2 px-8 py-4 text-lg font-bold shadow-lg transition-all duration-200 hover:scale-105 hover:cursor-pointer hover:shadow-xl"
             id="hunt-button"
             variant="default"
             size="lg"
+            onClick={handleSearch}
+            disabled={isPending}
           >
-            <FontAwesomeIcon icon={faSearch} className="text-base" />
-            <span>Caçar Pokémon</span>
+            {isPending ? (
+              "Carregando..."
+            ) : (
+              <>
+                <FontAwesomeIcon icon={faSearch} className="text-base" />
+                <span>Caçar Pokémon</span>
+              </>
+            )}
           </Button>
         </div>
+
+        {error && (
+          <div className="text-destructive mt-4 text-center">
+            {error.message}
+          </div>
+        )}
       </div>
     </section>
   );
