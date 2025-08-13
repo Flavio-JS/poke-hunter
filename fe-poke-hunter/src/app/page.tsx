@@ -15,7 +15,7 @@ export default function Home() {
       >
         <SearchSection />
 
-        <section id="results-section" className="mb-8 scroll-mt-[84px]">
+        <section id="results-section" className="flex flex-col gap-6 mb-8 scroll-mt-[84px]">
           <div className="grid gap-6 md:grid-cols-2">
             <WeatherCard />
             <PokemonCard />

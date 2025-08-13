@@ -3,7 +3,11 @@
 import { useWeatherPokemonContext } from "@/contexts/WeatherPokemonContext";
 import { getTypeColor, getTypeIcon } from "@/utils/pokemonTypeUtils";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faShieldAlt, faHandFist } from "@fortawesome/free-solid-svg-icons";
+import {
+  faShieldAlt,
+  faHandFist,
+  faQuestion,
+} from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
 
 export const BattleEffectivenessSection = () => {
@@ -36,7 +40,7 @@ export const BattleEffectivenessSection = () => {
       <div className="bg-card rounded-2xl p-6 shadow-xl">
         <div className="mb-6 flex items-center">
           <div
-            className={`${getTypeColor(weatherData.pokemonType)} from-primary to-primary-foreground mr-4 flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-r`}
+            className={`from-primary to-primary-foreground mr-4 flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-r`}
           >
             <FontAwesomeIcon icon={typeIcon} className="text-xl text-white" />
           </div>
@@ -61,14 +65,24 @@ export const BattleEffectivenessSection = () => {
               {battleEffectiveness.strongAgainst.map((pokemon, index) => (
                 <div className="text-center" key={index}>
                   <div className="bg-card mx-auto mb-2 flex h-16 w-16 items-center justify-center rounded-full shadow-md">
-                    <Image
-                      src={pokemon.image}
-                      width={64}
-                      height={64}
-                      className="h-full w-full rounded-full object-cover"
-                      alt={`${pokemon.pokemon} official artwork`}
-                      unoptimized
-                    />
+                    {pokemon.image ? (
+                      <Image
+                        src={pokemon.image}
+                        width={64}
+                        height={64}
+                        className="h-full w-full rounded-full object-cover"
+                        alt={`${pokemon.pokemon} official artwork`}
+                        unoptimized
+                      />
+                    ) : (
+                      <div className="bg-muted flex h-full w-full items-center justify-center rounded-full">
+                        <FontAwesomeIcon
+                          icon={faQuestion}
+                          className="text-muted-foreground"
+                          fixedWidth
+                        />
+                      </div>
+                    )}
                   </div>
                   <p className="text-muted-foreground text-xs font-semibold">
                     {pokemon.pokemon}
@@ -100,14 +114,24 @@ export const BattleEffectivenessSection = () => {
               {battleEffectiveness.weakAgainst.map((pokemon, index) => (
                 <div className="text-center" key={index}>
                   <div className="bg-card mx-auto mb-2 flex h-16 w-16 items-center justify-center rounded-full shadow-md">
-                    <Image
-                      src={pokemon.image}
-                      width={64}
-                      height={64}
-                      className="h-full w-full rounded-full object-cover"
-                      alt={`${pokemon.pokemon} official artwork`}
-                      unoptimized
-                    />
+                    {pokemon.image ? (
+                      <Image
+                        src={pokemon.image}
+                        width={64}
+                        height={64}
+                        className="h-full w-full rounded-full object-cover"
+                        alt={`${pokemon.pokemon} official artwork`}
+                        unoptimized
+                      />
+                    ) : (
+                      <div className="bg-muted flex h-full w-full items-center justify-center rounded-full">
+                        <FontAwesomeIcon
+                          icon={faQuestion}
+                          className="text-muted-foreground"
+                          fixedWidth
+                        />
+                      </div>
+                    )}
                   </div>
                   <p className="text-muted-foreground text-xs font-semibold">
                     {pokemon.pokemon}

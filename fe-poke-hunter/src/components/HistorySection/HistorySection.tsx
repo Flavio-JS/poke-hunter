@@ -1,7 +1,12 @@
 "use client";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faClock, faHistory, faTrash } from "@fortawesome/free-solid-svg-icons";
+import {
+  faClock,
+  faHistory,
+  faQuestion,
+  faTrash,
+} from "@fortawesome/free-solid-svg-icons";
 import { useSectionHighlight } from "@/hooks/useSectionHighlight";
 import { useWeatherPokemonContext } from "@/contexts/WeatherPokemonContext";
 import Image from "next/image";
@@ -85,13 +90,23 @@ export const HistorySection = () => {
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-4">
                       <div className="relative h-10 w-10">
-                        <Image
-                          src={item.pokemonImage}
-                          alt={`${item.pokemon} official artwork`}
-                          fill
-                          className="rounded-full object-cover"
-                          unoptimized
-                        />
+                        {item.pokemonImage ? (
+                          <Image
+                            src={item.pokemonImage}
+                            alt={`${item.pokemon} official artwork`}
+                            fill
+                            className="rounded-full object-cover"
+                            unoptimized
+                          />
+                        ) : (
+                          <div className="bg-muted flex h-full w-full items-center justify-center rounded-full">
+                            <FontAwesomeIcon
+                              icon={faQuestion}
+                              className="text-muted-foreground"
+                              fixedWidth
+                            />
+                          </div>
+                        )}
                       </div>
                       <div>
                         <h4 className="font-bold text-gray-800">{item.city}</h4>

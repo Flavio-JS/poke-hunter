@@ -31,13 +31,23 @@ export const PokemonCard = () => {
         {weatherData ? (
           <>
             <div className="relative mx-auto h-32 w-32">
-              <Image
-                src={weatherData.pokemonImage}
-                alt={`${weatherData.pokemon} official artwork`}
-                fill
-                className="rounded-full object-cover"
-                unoptimized
-              />
+              {weatherData.pokemonImage ? (
+                <Image
+                  src={weatherData.pokemonImage}
+                  alt={`${weatherData.pokemon} official artwork`}
+                  fill
+                  className="rounded-full object-cover"
+                  unoptimized
+                />
+              ) : (
+                <div className="bg-muted flex h-full w-full items-center justify-center rounded-full">
+                  <FontAwesomeIcon
+                    icon={faQuestion}
+                    className="text-muted-foreground text-6xl"
+                    fixedWidth
+                  />
+                </div>
+              )}
             </div>
             <h4 className="text-foreground mt-4 text-2xl font-bold capitalize">
               {weatherData.pokemon.replace("-", " ")}
