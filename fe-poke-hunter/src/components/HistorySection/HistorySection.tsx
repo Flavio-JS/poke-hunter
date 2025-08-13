@@ -12,15 +12,38 @@ import {
 } from "@/utils/pokemonTypeUtils";
 import { WeatherPokemonResponse } from "@/api/types/weatherPokemon";
 import { smoothScrollTo } from "@/utils/smooth-scroll";
+import { useBattleEffectivenessMutation } from "@/api/hooks/useBattleEffectiveness";
 
 export const HistorySection = () => {
   const isHighlighted = useSectionHighlight("history-section");
-  const { searchHistory, clearHistory, setWeatherData } =
-    useWeatherPokemonContext();
+  const {
+    searchHistory,
+    clearHistory,
+    setWeatherData,
+    setBattleEffectiveness,
+    setIsLoading,
+    setError,
+  } = useWeatherPokemonContext();
+  const { mutate: fetchEffectiveness } = useBattleEffectivenessMutation();
 
   const handleHistoryItemClick = (item: WeatherPokemonResponse) => {
     setWeatherData(item);
-    smoothScrollTo("main-content");
+    setIsLoading(true);
+    setError(null);
+
+    fetchEffectiveness(item.pokemonType, {
+      onSuccess: (effectivenessData) => {
+        setBattleEffectiveness(effectivenessData);
+      },
+      onError: (effectivenessError) => {
+        console.error("Battle effectiveness error:", effectivenessError);
+      },
+      onSettled: () => {
+        setIsLoading(false);
+      },
+    });
+
+    smoothScrollTo("results-section");
   };
 
   return (
@@ -75,12 +98,12 @@ export const HistorySection = () => {
                         <p className="text-sm text-gray-600">
                           {item.temperature}°C • {item.pokemon}
                         </p>
-                        <div className="mt-1 flex items-center space-x-1 bg-card w-fit rounded-xl px-2 py-0.5">
+                        <div className="bg-card mt-1 flex w-fit items-center space-x-1 rounded-xl px-2 py-0.5">
                           <FontAwesomeIcon
                             icon={getTypeIcon(item.pokemonType)}
                             className={`${getTypeColor(item.pokemonType)} text-xs`}
                           />
-                          <span className="text-xs text-card-foreground capitalize">
+                          <span className="text-card-foreground text-xs capitalize">
                             {item.pokemonType}
                           </span>
                         </div>

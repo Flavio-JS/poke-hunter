@@ -1,3 +1,4 @@
+import { BattleEffectivenessSection } from "@/components/BattleEffectivenessSection/BattleEffectivenessSection";
 import { HistorySection } from "@/components/HistorySection/HistorySection";
 import { InstructionsSection } from "@/components/InstructionsSection/InstructionsSection";
 import { PokemonCard } from "@/components/PokemonCard/PokemonCard";
@@ -14,11 +15,13 @@ export default function Home() {
       >
         <SearchSection />
 
-        <section id="results-section" className="mb-8">
+        <section id="results-section" className="mb-8 scroll-mt-[84px]">
           <div className="grid gap-6 md:grid-cols-2">
             <WeatherCard />
             <PokemonCard />
           </div>
+
+          <BattleEffectivenessSection />
         </section>
 
         <InstructionsSection />

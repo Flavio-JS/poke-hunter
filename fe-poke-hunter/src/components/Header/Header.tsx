@@ -60,9 +60,9 @@ export const Header = () => {
           <div className="flex items-center gap-6">
             <nav className="hidden space-x-6 md:flex">
               <Link
-                href="#main-content"
+                href="#results-section"
                 className="text-muted-foreground hover:text-primary cursor-pointer font-semibold transition-colors"
-                onClick={(e) => handleNavClick(e, "main-content")}
+                onClick={(e) => handleNavClick(e, "results-section")}
               >
                 Home
               </Link>

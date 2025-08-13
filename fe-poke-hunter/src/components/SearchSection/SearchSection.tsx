@@ -1,46 +1,24 @@
 "use client";
 
-import { useRef, useState } from "react";
-import { useWeatherPokemonMutation } from "@/api/hooks/useWeatherPokemon";
+import { useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMapMarkerAlt, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { useSectionHighlight } from "@/hooks/useSectionHighlight";
-import { useWeatherPokemonContext } from "@/contexts/WeatherPokemonContext";
+import { useSearchSection } from "./useSearchSection";
 
 export const SearchSection = () => {
-  const [city, setCity] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
   const isHighlighted = useSectionHighlight("search-section");
-  const { setWeatherData, setIsLoading, addToHistory, setError } =
-    useWeatherPokemonContext();
-
-  const { mutate, isPending, error } = useWeatherPokemonMutation();
-
-  const handleSearch = () => {
-    if (city.trim()) {
-      setIsLoading(true);
-      setError(null);
-      mutate(city.trim(), {
-        onSuccess: (data) => {
-          setWeatherData(data);
-          addToHistory(data);
-          setIsLoading(false);
-        },
-        onError: (error) => {
-          setError(error);
-          setIsLoading(false);
-        },
-      });
-    }
-  };
-
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter") {
-      handleSearch();
-    }
-  };
+  const {
+    city,
+    setCity,
+    isPokemonLoading,
+    pokemonError,
+    handleSearch,
+    handleKeyDown,
+  } = useSearchSection();
 
   return (
     <section id="search-section" className="-mt-16 mb-8 scroll-mt-[84px] pt-16">
@@ -67,6 +45,7 @@ export const SearchSection = () => {
               value={city}
               onChange={(e) => setCity(e.target.value)}
               onKeyDown={handleKeyDown}
+              disabled={isPokemonLoading}
             />
             <FontAwesomeIcon
               icon={faMapMarkerAlt}
@@ -79,10 +58,13 @@ export const SearchSection = () => {
             variant="default"
             size="lg"
             onClick={handleSearch}
-            disabled={isPending}
+            disabled={isPokemonLoading}
           >
-            {isPending ? (
-              "Carregando..."
+            {isPokemonLoading ? (
+              <span className="flex items-center gap-2">
+                <span className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-solid border-current border-r-transparent"></span>
+                Buscando...
+              </span>
             ) : (
               <>
                 <FontAwesomeIcon icon={faSearch} className="text-base" />
@@ -92,9 +74,9 @@ export const SearchSection = () => {
           </Button>
         </div>
 
-        {error && (
-          <div className="text-destructive mt-4 text-center">
-            {error.message}
+        {pokemonError && (
+          <div className="text-destructive bg-destructive/10 mt-4 rounded-lg p-3 text-center">
+            <strong>Erro:</strong> {pokemonError.message}
           </div>
         )}
       </div>

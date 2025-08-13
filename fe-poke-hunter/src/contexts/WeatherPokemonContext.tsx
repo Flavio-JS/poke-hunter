@@ -3,6 +3,19 @@
 import { createContext, useContext, useState } from "react";
 import { WeatherPokemonResponse } from "@/api/types/weatherPokemon";
 
+type BattleEffectiveness = {
+  strongAgainst: {
+    pokemon: string;
+    type: string;
+    image: string;
+  }[];
+  weakAgainst: {
+    pokemon: string;
+    type: string;
+    image: string;
+  }[];
+};
+
 type WeatherPokemonContextType = {
   weatherData: WeatherPokemonResponse | null;
   setWeatherData: (data: WeatherPokemonResponse | null) => void;
@@ -13,6 +26,8 @@ type WeatherPokemonContextType = {
   searchHistory: WeatherPokemonResponse[];
   addToHistory: (data: WeatherPokemonResponse) => void;
   clearHistory: () => void;
+  battleEffectiveness: BattleEffectiveness | null;
+  setBattleEffectiveness: (data: BattleEffectiveness | null) => void;
 };
 
 const WeatherPokemonContext = createContext<
@@ -32,6 +47,8 @@ export const WeatherPokemonProvider = ({
   const [searchHistory, setSearchHistory] = useState<WeatherPokemonResponse[]>(
     [],
   );
+  const [battleEffectiveness, setBattleEffectiveness] =
+    useState<BattleEffectiveness | null>(null);
 
   const addToHistory = (data: WeatherPokemonResponse) => {
     setSearchHistory((prev) => [data, ...prev].slice(0, 10));
@@ -53,6 +70,8 @@ export const WeatherPokemonProvider = ({
         searchHistory,
         addToHistory,
         clearHistory,
+        battleEffectiveness,
+        setBattleEffectiveness,
       }}
     >
       {children}
