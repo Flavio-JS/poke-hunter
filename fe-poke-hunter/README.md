@@ -6,6 +6,8 @@ Ele permite que o usuário informe uma cidade, consulte a API do backend e visua
 - 🌡️ **Temperatura atual** (°C)
 - ☔ **Condição climática** (chuva ou não)
 - 🎯 **Pokémon correspondente** de acordo com as regras do clima, com nome e imagem
+- 📜 **Histórico de Consultas** — Lista das últimas cidades pesquisadas com seus respectivos Pokémons
+- ⚔️ **Efetividade em Batalha** — Mostra contra quais tipos o Pokémon é **forte** e **fraco**
 
 ---
 
@@ -77,6 +79,7 @@ fe-poke-hunter/
     │   ├───Footer
     │   ├───Header
     │   ├───HistorySection
+    │   ├───BattleEffectivenessSection
     │   ├───InstructionsSection
     │   ├───PokemonCard
     │   ├───SearchSection
